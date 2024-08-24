@@ -11,7 +11,10 @@ class App(ctk.CTk):
         ctk.set_appearance_mode("system")
 
         self.__backend = VigeneraBackend()
-        self.geometry("430x600")
+        width, height = 430, 650
+        x, y = (self.winfo_screenwidth() - width) // 2, (self.winfo_screenheight() - height) // 2
+
+        self.geometry(f"{width}x{height}+{x}+{y}")
         self.title("VIGENERA CIPHER")
         self.resizable(False, False)
 
@@ -31,7 +34,8 @@ class App(ctk.CTk):
         self.decrypt_input.bind('<Button-1>', self.clear_text_cipher)
 
     def encrypt_text(self):
-        input_text = self.encrypt_input.get("1.0", "end-1c")
+        input_text = self.encrypt_input.get("1.0", "end").replace("\n", " ")
+        print((input_text))
         user_key = self.encrypt_key.get()
         if input_text:
             if user_key:
@@ -48,7 +52,7 @@ class App(ctk.CTk):
             messagebox.showerror("ERROR", "Please enter text to encrypt")
 
     def decrypt_text(self):
-        input_text = self.decrypt_input.get("1.0", "end-1c")
+        input_text = self.decrypt_input.get("1.0", "end").replace("\n", " ")
         user_key = self.decrypt_key.get()
         if input_text:
             if user_key:
@@ -71,6 +75,26 @@ class App(ctk.CTk):
     def clear_text_cipher(self, *args, **kwargs):
         self.decrypt_input.delete("1.0", "end")
         self.decrypt_input.unbind("<Button-1>")
+
+    def copy_text(self, tab='d', *args, **kwargs):
+        try:
+            copied_text = self.encrypt_output.get("1.0", "end").replace("\n", " ") if (
+                    tab[0] == 'e') else self.decrypt_output.get("1.0", "end").replace("\n", " ")
+            self.clipboard_clear()
+            self.clipboard_append(copied_text)
+            self.__backend.logger.info("Copying Success")
+        except Exception as e:
+            self.__backend.logger.error(f"Error Happened: {e}")
+
+    def paste_text(self, tab="d", *args, **kwargs):
+        try:
+            wanted_text_box = self.encrypt_input if (tab[0] == 'e') else self.decrypt_input
+            text = self.clipboard_get()
+            wanted_text_box.delete("1.0", "end")
+            wanted_text_box.insert("1.0", text)
+            self.__backend.logger.info("Pasting Success")
+        except Exception as e:
+            self.__backend.logger.error(f"Error Happened: {e}")
 
     def run(self):
         self.mainloop()

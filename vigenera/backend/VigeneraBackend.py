@@ -17,6 +17,10 @@ class VigeneraBackend:
         return self.__key
 
     @property
+    def logger(self):
+        return self.__logger
+
+    @property
     def text(self):
         return self.__text
 
