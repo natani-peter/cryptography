@@ -35,7 +35,7 @@ class App(ctk.CTk):
 
     def encrypt_text(self):
         input_text = self.encrypt_input.get("1.0", "end").replace("\n", " ")
-        print((input_text))
+
         user_key = self.encrypt_key.get()
         if input_text:
             if user_key:
