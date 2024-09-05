@@ -3,6 +3,7 @@ import customtkinter as ctk
 
 class HelpFrame(ctk.CTkFrame):
     def __init__(self, parent, **kwargs):
+
         super().__init__(parent, corner_radius=10)
         self.__name = kwargs.get('name', '').title()
 
@@ -30,3 +31,4 @@ class HelpFrame(ctk.CTkFrame):
         )
         help_label.pack(pady=5)
         self.pack(fill="both", expand=True, padx=5, pady=5)
+

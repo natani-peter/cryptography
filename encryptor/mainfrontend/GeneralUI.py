@@ -7,7 +7,9 @@ from encryptor.utility.help_frame import HelpFrame
 class GeneralUI(ctk.CTkTabview):
     def __init__(self, parent, **kwargs):
         self.title = "General UI"
+
         super().__init__(master=parent, anchor='center', corner_radius=10)
+
 
         self.__parent = parent
         self.__name = self.__parent.master.master.name
@@ -19,6 +21,7 @@ class GeneralUI(ctk.CTkTabview):
 
         # put widgets on tabs
         self.encrypt_frame = EncryptionFrame(self.encryption_tab, kwargs.get('entry_text', "Enter Your Encryption Key"))
+
         self.encrypt_frame.pack(expand=True, fill="both", )
         self.encrypt_frame.configure(fg_color='#7ED321')
 

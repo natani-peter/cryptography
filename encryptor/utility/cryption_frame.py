@@ -8,8 +8,10 @@ class CryptionFrame(ctk.CTkFrame):
     upper_box_text = ""
     lower_box_text_type = ""
     lower_box_initial_text = ""
+
     color = '#fff'
     button_color = ''
+
 
     def __init__(self, parent, text):
         super().__init__(master=parent)
@@ -17,6 +19,7 @@ class CryptionFrame(ctk.CTkFrame):
         self.name = parent.master.name
 
         LabelWidget(self, text=self.name)
+
         self.upper_box = TextBoxWidget(self, text=self.upper_box_text, color=self.color)
         self.upper_box.pack(expand=True, fill="both", padx=10)
 
@@ -28,10 +31,13 @@ class CryptionFrame(ctk.CTkFrame):
                                            hover_color=self.button_color)
         self.action_button.pack(pady=4, )
 
+
         self.lower_box = TextBoxWidget(self, text="", text_box_type=self.lower_box_text_type)
         self.lower_box.insert("1.0", self.lower_box_initial_text)
         self.lower_box.configure(state="disabled")
+
         self.lower_box.pack(expand=True, fill="both", pady=8, padx=10)
+
 
     @staticmethod
     def get_backend(name="") -> InterfaceBackend:

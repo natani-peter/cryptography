@@ -7,7 +7,9 @@ class EncryptionFrame(CryptionFrame):
     upper_box_text = "Enter Text To Encrypt"
     lower_box_text_type = "decrypt"
     lower_box_initial_text = "CIPHER TEXT"
+
     button_color = '#3333ff'
+
 
     def __init__(self, parent, text):
         super().__init__(parent, text)

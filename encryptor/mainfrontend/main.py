@@ -22,6 +22,7 @@ class MainWindow(ctk.CTk):
         self.geometry(f"{__width}x{__height}+{int(__left)}+{int(__top)}")
         self.resizable(False, False)
 
+
         # MAIN OUTER TAB
         self.main_notebook = ctk.CTkTabview(self,
                                             command=self.__set_other_tabs,
@@ -42,10 +43,12 @@ class MainWindow(ctk.CTk):
 
         self.vigenera_tab = self.main_notebook.add(self.__last_tab)
 
+
     def __set_other_tabs(self):
         self.name = self.main_notebook.get()
         first_lower_letter = self.name.lower()[0]
         if first_lower_letter == "c":
+
             self.main_notebook.configure(fg_color='#f5a623')
             self.__set_second_tab()
         elif first_lower_letter == "v":

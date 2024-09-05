@@ -8,6 +8,7 @@ file_path = os.path.dirname(os.path.abspath(__file__))
 
 
 class ImagePaths:
+
     copy_image_path = file_path + "/assets/copy_image.png"
     paste_image_path = file_path + "/assets/paste_image.png"
 
@@ -23,7 +24,7 @@ class ImageWidget(ctk.CTkImage):
 
 class LabelWidget(ctk.CTkLabel):
     def __init__(self, parent, text: str, font=(36, 36), text_color: str = 'white'):
-        super().__init__(master=parent, text=text, font=font, text_color=text_color)
+
         self.pack(pady=6, padx=10)
 
 
@@ -35,13 +36,16 @@ class TextBoxWidget(ctk.CTkTextbox):
         self.bind('<Button-1>', self.clear_text)
         self.copy = ButtonWidget(self, color, self.copy_text, "copy")
         self.paste = ButtonWidget(self, color, self.paste_text, "paste")
+
         self.place_button()
 
     def place_button(self):
         if self.__type:
+
             self.paste.place(relx=0.98, rely=0.02, anchor='ne')
             return
         self.copy.place(relx=0.98, rely=0.02, anchor='ne')
+
         return
 
     def copy_text(self, *args, **kwargs):
@@ -69,12 +73,14 @@ class TextBoxWidget(ctk.CTkTextbox):
 
 class ButtonWidget(ctk.CTkButton):
     def __init__(self, parent, color, command_function=None, image_type=None):
+
         self.__command = command_function
         if image_type:
             image = ImageWidget("paste") if image_type == "paste" else ImageWidget("copy")
 
             super().__init__(master=parent, image=image, text='', width=20, height=1, corner_radius=5,
                              command=self.command, fg_color=color, hover_color=color)
+
             return
 
     @property
