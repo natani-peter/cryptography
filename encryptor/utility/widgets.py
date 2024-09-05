@@ -8,8 +8,9 @@ file_path = os.path.dirname(os.path.abspath(__file__))
 
 
 class ImagePaths:
-    copy_image_path = file_path + "/assets/blue copy.png"
-    paste_image_path = file_path + "/assets/blue paste.png"
+
+    copy_image_path = file_path + "/assets/copy_image.png"
+    paste_image_path = file_path + "/assets/paste_image.png"
 
 
 class ImageWidget(ctk.CTkImage):
@@ -23,25 +24,28 @@ class ImageWidget(ctk.CTkImage):
 
 class LabelWidget(ctk.CTkLabel):
     def __init__(self, parent, text: str, font=(36, 36), text_color: str = 'white'):
-        super().__init__(master=parent, text=text, font=font, text_color=text_color)
-        self.pack(pady=6)
+
+        self.pack(pady=6, padx=10)
 
 
 class TextBoxWidget(ctk.CTkTextbox):
-    def __init__(self, parent, text="Enter Text To Decrypt", text_box_type="encrypt"):
-        super().__init__(master=parent, height=150)
+    def __init__(self, parent, color='#fff', text="Enter Text To Decrypt", text_box_type="encrypt"):
+        super().__init__(master=parent, height=150, fg_color=color, text_color='#000')
         self.__type = 1 if text_box_type == "encrypt" else 0
         self.insert("1.0", text)
         self.bind('<Button-1>', self.clear_text)
-        self.copy = ButtonWidget(self, self.copy_text, "copy")
-        self.paste = ButtonWidget(self, self.paste_text, "paste")
+        self.copy = ButtonWidget(self, color, self.copy_text, "copy")
+        self.paste = ButtonWidget(self, color, self.paste_text, "paste")
+
         self.place_button()
 
     def place_button(self):
         if self.__type:
-            self.paste.place(relx=0.99, rely=0.01, anchor='ne')
+
+            self.paste.place(relx=0.98, rely=0.02, anchor='ne')
             return
-        self.copy.place(relx=0.99, rely=0.01, anchor='ne')
+        self.copy.place(relx=0.98, rely=0.02, anchor='ne')
+
         return
 
     def copy_text(self, *args, **kwargs):
@@ -68,13 +72,15 @@ class TextBoxWidget(ctk.CTkTextbox):
 
 
 class ButtonWidget(ctk.CTkButton):
-    def __init__(self, parent, command_function=None, image_type=None):
+    def __init__(self, parent, color, command_function=None, image_type=None):
+
         self.__command = command_function
         if image_type:
             image = ImageWidget("paste") if image_type == "paste" else ImageWidget("copy")
 
-            super().__init__(master=parent, image=image, text='', width=20, height=1, corner_radius=0,
-                             fg_color="#111", command=self.command)
+            super().__init__(master=parent, image=image, text='', width=20, height=1, corner_radius=5,
+                             command=self.command, fg_color=color, hover_color=color)
+
             return
 
     @property
