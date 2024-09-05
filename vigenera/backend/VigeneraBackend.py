@@ -1,50 +1,36 @@
-from vigenera.backend.validators import Validator
-from vigenera.backend.loggers import Logger
+from encryptor.mainbackend.validators import Validator
 from vigenera.backend.cryption import VigeneraCrypt
+from encryptor.mainbackend.main_backend import InterfaceBackend
 
 
-class VigeneraBackend:
+class VigeneraBackend(InterfaceBackend):
     __validator = Validator()
 
     def __init__(self):
+        super().__init__()
         self.__name__ = "VigeneraBackend"
-        self.__logger = Logger("Natani Peter").logger
         self.__key = ""
         self.__text = ""
 
-    @property
-    def key(self):
-        return self.__key
-
-    @property
-    def logger(self):
-        return self.__logger
-
-    @property
-    def text(self):
-        return self.__text
-
-    @key.setter
     @__validator.clean_text
     @__validator.verify("key")
-    def key(self, key_text) -> None:
+    def set_key(self, key_text) -> None:
         self.__key = "".join(key_text)
-        self.__logger.info("Key is set to \"{}\"".format(" ".join(key_text)))
+        self.logger.info(f"-{self.__name__} Key is set to \"{" ".join(key_text)}\"")
 
-    @text.setter
     @__validator.clean_text
-    def text(self, user_text):
+    def set_text(self, user_text):
         self.__text = user_text
-        self.__logger.info("Plain Text is set to \"{}\"".format(" ".join(user_text)))
+        self.logger.info(f"{self.__name__} Plain Text is set to \"{" ".join(user_text)}\"")
 
     def encrypt(self):
-        self.__logger.info(f"Encrypting".upper())
-        result = " ".join([VigeneraCrypt(word, self.key).encrypt() for word in self.text])
-        self.__logger.info(f"Result: \"{result}\"\n\n")
-        return result, self.text, self.key
+        self.logger.info(f"Encrypting".upper())
+        result = " ".join([VigeneraCrypt(word, self.__key).encrypt() for word in self.__text])
+        self.logger.info(f"{self.__name__} Result: \"{result}\"\n\n")
+        return result
 
     def decrypt(self):
-        self.__logger.info(f"Decrypting".upper())
-        result = " ".join([VigeneraCrypt(word, self.key).decrypt() for word in self.text])
-        self.__logger.info(f"Result: \"{result}\"\n\n")
-        return result, self.text, self.key
+        self.logger.info(f"Decrypting".upper())
+        result = " ".join([VigeneraCrypt(word, self.__key).decrypt() for word in self.__text])
+        self.logger.info(f"{self.__name__} Result: \"{result}\"\n\n")
+        return result
